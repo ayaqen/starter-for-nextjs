@@ -1,311 +1,309 @@
-"use client";
+// app/page.js - Production Landing Page
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
-import "./app.css";
-import "@appwrite.io/pink-icons";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { client } from "@/lib/appwrite";
-import { AppwriteException } from "appwrite";
-import NextjsLogo from "../static/nextjs-icon.svg";
-import AppwriteLogo from "../static/appwrite-icon.svg";
-import Image from "next/image";
-
-export default function Home() {
-  const [detailHeight, setDetailHeight] = useState(55);
-  const [logs, setLogs] = useState([]);
-  const [status, setStatus] = useState("idle");
-  const [showLogs, setShowLogs] = useState(false);
-
-  const detailsRef = useRef(null);
-
-  const updateHeight = useCallback(() => {
-    if (detailsRef.current) {
-      setDetailHeight(detailsRef.current.clientHeight);
-    }
-  }, [logs, showLogs]);
-
-  useEffect(() => {
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, [updateHeight]);
-
-  useEffect(() => {
-    if (!detailsRef.current) return;
-    detailsRef.current.addEventListener("toggle", updateHeight);
-
-    return () => {
-      if (!detailsRef.current) return;
-      detailsRef.current.removeEventListener("toggle", updateHeight);
-    };
-  }, []);
-
-  async function sendPing() {
-    if (status === "loading") return;
-    setStatus("loading");
-    try {
-      const result = await client.ping();
-      const log = {
-        date: new Date(),
-        method: "GET",
-        path: "/v1/ping",
-        status: 200,
-        response: JSON.stringify(result),
-      };
-      setLogs((prevLogs) => [log, ...prevLogs]);
-      setStatus("success");
-    } catch (err) {
-      const log = {
-        date: new Date(),
-        method: "GET",
-        path: "/v1/ping",
-        status: err instanceof AppwriteException ? err.code : 500,
-        response:
-          err instanceof AppwriteException
-            ? err.message
-            : "Something went wrong",
-      };
-      setLogs((prevLogs) => [log, ...prevLogs]);
-      setStatus("error");
-    }
-    setShowLogs(true);
-  }
-
+export default function LandingPage() {
   return (
-    <main
-      className="checker-background flex flex-col items-center p-5"
-      style={{ marginBottom: `${detailHeight}px` }}
-    >
-      <div className="mt-25 flex w-full max-w-[40em] items-center justify-center lg:mt-34">
-        <div className="rounded-[25%] border border-[#19191C0A] bg-[#F9F9FA] p-3 shadow-[0px_9.36px_9.36px_0px_hsla(0,0%,0%,0.04)]">
-          <div className="rounded-[25%] border border-[#FAFAFB] bg-white p-5 shadow-[0px_2px_12px_0px_hsla(0,0%,0%,0.03)] lg:p-9">
-            <Image
-              alt={"Next.js logo"}
-              src={NextjsLogo}
-              width={56}
-              height={56}
-            />
-          </div>
-        </div>
-        <div
-          className={`flex w-38 items-center transition-opacity duration-2500 ${status === "success" ? "opacity-100" : "opacity-0"}`}
-        >
-          <div className="to-[rgba(253, 54, 110, 0.15)] h-[1px] flex-1 bg-gradient-to-l from-[#f02e65]"></div>
-          <div className="icon-check flex h-5 w-5 items-center justify-center rounded-full border border-[#FD366E52] bg-[#FD366E14] text-[#FD366E]"></div>
-          <div className="to-[rgba(253, 54, 110, 0.15)] h-[1px] flex-1 bg-gradient-to-r from-[#f02e65]"></div>
-        </div>
-        <div className="rounded-[25%] border border-[#19191C0A] bg-[#F9F9FA] p-3 shadow-[0px_9.36px_9.36px_0px_hsla(0,0%,0%,0.04)]">
-          <div className="rounded-[25%] border border-[#FAFAFB] bg-white p-5 shadow-[0px_2px_12px_0px_hsla(0,0%,0%,0.03)] lg:p-9">
-            <Image
-              alt={"Appwrite logo"}
-              src={AppwriteLogo}
-              width={56}
-              height={56}
-            />
-          </div>
-        </div>
-      </div>
-
-      <section className="mt-12 flex h-52 flex-col items-center">
-        {status === "loading" ? (
-          <div className="flex flex-row gap-4">
-            <div role="status">
-              <svg
-                aria-hidden="true"
-                className="h-5 w-5 animate-spin fill-[#FD366E] text-gray-200 dark:text-gray-600"
-                viewBox="0 0 100 101"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="currentFill"
-                />
-              </svg>
-              <span className="sr-only">Loading...</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
+      {/* Navigation */}
+      <nav className="border-b border-slate-800/50 backdrop-blur-sm sticky top-0 z-50 bg-slate-950/50">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="text-2xl">🐾</div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
+                ClawGit
+              </span>
+            </Link>
+            <div className="hidden md:flex items-center gap-6">
+              <Link href="#features" className="text-slate-300 hover:text-white transition">
+                Features
+              </Link>
+              <Link href="#pricing" className="text-slate-300 hover:text-white transition">
+                Pricing
+              </Link>
+              <Link href="/aigit">
+                <Button variant="outline" className="border-purple-500 text-purple-400 hover:bg-purple-500/10">
+                  Dashboard
+                </Button>
+              </Link>
+              <Link href="/aigit">
+                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                  Get Started
+                </Button>
+              </Link>
             </div>
-            <span>Waiting for connection...</span>
           </div>
-        ) : status === "success" ? (
-          <h1 className="font-[Poppins] text-2xl font-light text-[#2D2D31]">
-            Congratulations!
-          </h1>
-        ) : (
-          <h1 className="font-[Poppins] text-2xl font-light text-[#2D2D31]">
-            Check connection
-          </h1>
-        )}
+        </div>
+      </nav>
 
-        <p className="mt-2 mb-8">
-          {status === "success" ? (
-            <span>You connected your app successfully.</span>
-          ) : status === "error" || status === "idle" ? (
-            <span>Send a ping to verify the connection</span>
-          ) : null}
-        </p>
+      {/* Hero */}
+      <section className="container mx-auto px-6 py-20 md:py-32">
+        <div className="text-center space-y-8 max-w-5xl mx-auto">
+          <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 px-4 py-2 text-sm">
+            ✨ AI-Powered Git Workflow
+          </Badge>
+          
+          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
+            Code Review That
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-purple-600">
+              Understands Your Vibe
+            </span>
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto">
+            Claude AI analyzes your commits, reviews code in real-time, and tracks your flow state. Ship better code, faster.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <Link href="/aigit">
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-lg px-8 py-6">
+                Start Free Trial →
+              </Button>
+            </Link>
+            <Button size="lg" variant="outline" className="text-white border-slate-600 hover:bg-slate-800 text-lg px-8 py-6">
+              ▶ Watch Demo
+            </Button>
+          </div>
 
-        <button
-          onClick={sendPing}
-          className={`cursor-pointer rounded-md bg-[#FD366E] px-2.5 py-1.5 ${status === "loading" ? "hidden" : "visible"}`}
-        >
-          <span className="text-white">Send a ping</span>
-        </button>
+          <div className="flex flex-wrap items-center justify-center gap-6 pt-6 text-slate-400 text-sm">
+            <div className="flex items-center gap-2">
+              <span className="text-green-400">✓</span>
+              No credit card required
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-green-400">✓</span>
+              10 free AI operations
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-green-400">✓</span>
+              Cancel anytime
+            </div>
+          </div>
+        </div>
+
+        {/* Terminal Demo */}
+        <div className="mt-16 max-w-4xl mx-auto">
+          <Card className="bg-slate-900/50 border-slate-700 overflow-hidden shadow-2xl">
+            <div className="bg-slate-900 p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+              </div>
+              <div className="bg-slate-950 rounded p-4 font-mono text-sm space-y-2">
+                <div className="text-purple-400">$ npm run vibe -- review</div>
+                <div className="text-slate-500">Analyzing your code with Claude AI...</div>
+                <div className="text-green-400 mt-3">✓ Code quality: 8.5/10</div>
+                <div className="text-yellow-400">⚠ 2 potential issues found</div>
+                <div className="text-blue-400">ℹ Flow state: Peak momentum detected</div>
+                <div className="text-purple-400">✨ Vibe check: You're in the zone! 🔥</div>
+              </div>
+            </div>
+          </Card>
+        </div>
       </section>
 
-      <div className="grid grid-rows-3 gap-7 lg:grid-cols-3 lg:grid-rows-none">
-        <div className="flex h-full w-72 flex-col gap-2 rounded-md border border-[#EDEDF0] bg-white p-4">
-          <h2 className="text-xl font-light text-[#2D2D31]">Edit your app</h2>
-          <p>
-            Edit{" "}
-            <code className="rounded-sm bg-[#EDEDF0] p-1">app/page.js</code> to
-            get started with building your app.
+      {/* Features */}
+      <section id="features" className="container mx-auto px-6 py-20">
+        <div className="text-center mb-16">
+          <Badge className="bg-slate-800 text-slate-300 border-slate-700 mb-4">Features</Badge>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Everything You Need
+          </h2>
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+            AI-powered tools that integrate seamlessly into your workflow
           </p>
         </div>
-        <a
-          href="https://cloud.appwrite.io"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="flex h-full w-72 flex-col gap-2 rounded-md border border-[#EDEDF0] bg-white p-4">
-            <div className="flex flex-row items-center justify-between">
-              <h2 className="text-xl font-light text-[#2D2D31]">
-                Go to console
-              </h2>
-              <span className="icon-arrow-right text-[#D8D8DB]"></span>
-            </div>
-            <p>
-              Navigate to the console to control and oversee the Appwrite
-              services.
-            </p>
-          </div>
-        </a>
 
-        <a
-          href="https://appwrite.io/docs"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="flex h-full w-72 flex-col gap-2 rounded-md border border-[#EDEDF0] bg-white p-4">
-            <div className="flex flex-row items-center justify-between">
-              <h2 className="text-xl font-light text-[#2D2D31]">
-                Explore docs
-              </h2>
-              <span className="icon-arrow-right text-[#D8D8DB]"></span>
-            </div>
-            <p>
-              Discover the full power of Appwrite by diving into our
-              documentation.
-            </p>
-          </div>
-        </a>
-      </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card className="bg-slate-900/50 border-slate-800 hover:border-purple-500/50 transition-all">
+            <CardHeader>
+              <div className="text-4xl mb-3">🤖</div>
+              <CardTitle className="text-white">AI Commit Messages</CardTitle>
+              <CardDescription className="text-slate-400">
+                Claude writes perfect conventional commits with 3 alternatives to choose from.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-slate-950 rounded p-3 font-mono text-xs text-purple-400">
+                feat(auth): implement OAuth 2.0
+              </div>
+            </CardContent>
+          </Card>
 
-      <aside className="fixed bottom-0 flex w-full cursor-pointer border-t border-[#EDEDF0] bg-white">
-        <details open={showLogs} ref={detailsRef} className={"w-full"}>
-          <summary className="flex w-full flex-row justify-between p-4 marker:content-none">
-            <div className="flex gap-2">
-              <span className="font-semibold">Logs</span>
-              {logs.length > 0 && (
-                <div className="flex items-center rounded-md bg-[#E6E6E6] px-2">
-                  <span className="font-semibold">{logs.length}</span>
-                </div>
-              )}
-            </div>
-            <div className="icon">
-              <span className="icon-cheveron-down" aria-hidden="true"></span>
-            </div>
-          </summary>
-          <div className="flex w-full flex-col lg:flex-row">
-            <div className="flex flex-col border-r border-[#EDEDF0]">
-              <div className="border-y border-[#EDEDF0] bg-[#FAFAFB] px-4 py-2 text-[#97979B]">
-                Project
+          <Card className="bg-slate-900/50 border-slate-800 hover:border-purple-500/50 transition-all">
+            <CardHeader>
+              <div className="text-4xl mb-3">🔍</div>
+              <CardTitle className="text-white">Live Code Review</CardTitle>
+              <CardDescription className="text-slate-400">
+                Real-time streaming review with severity scoring and actionable suggestions.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-800 hover:border-purple-500/50 transition-all">
+            <CardHeader>
+              <div className="text-4xl mb-3">✨</div>
+              <CardTitle className="text-white">Vibe Analysis</CardTitle>
+              <CardDescription className="text-slate-400">
+                Flow state tracking from your commit patterns. Know when you're in the zone.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-800 hover:border-purple-500/50 transition-all">
+            <CardHeader>
+              <div className="text-4xl mb-3">📝</div>
+              <CardTitle className="text-white">PR Descriptions</CardTitle>
+              <CardDescription className="text-slate-400">
+                Auto-generate comprehensive titles, descriptions, and suggested labels.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-800 hover:border-purple-500/50 transition-all">
+            <CardHeader>
+              <div className="text-4xl mb-3">⚡</div>
+              <CardTitle className="text-white">Git Hooks</CardTitle>
+              <CardDescription className="text-slate-400">
+                Pre-commit reviews, auto-filled messages, and post-commit insights.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-800 hover:border-purple-500/50 transition-all">
+            <CardHeader>
+              <div className="text-4xl mb-3">🛠️</div>
+              <CardTitle className="text-white">CLI + Web UI</CardTitle>
+              <CardDescription className="text-slate-400">
+                Terminal commands or browser dashboard. Your choice.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="container mx-auto px-6 py-20">
+        <div className="text-center mb-16">
+          <Badge className="bg-slate-800 text-slate-300 border-slate-700 mb-4">Pricing</Badge>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="text-xl text-slate-400">Start free, upgrade when ready</p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {/* Free */}
+          <Card className="bg-slate-900/50 border-slate-800 p-6">
+            <CardHeader className="p-0 pb-6">
+              <div className="text-slate-400 text-sm mb-2">For Trying Out</div>
+              <CardTitle className="text-3xl text-white">Free</CardTitle>
+              <div className="text-5xl font-bold text-white mt-2">
+                $0<span className="text-base text-slate-500 font-normal">/mo</span>
               </div>
-              <div className="grid grid-cols-2 gap-4 p-4">
-                <div className="flex flex-col">
-                  <span className="text-[#97979B]">Endpoint</span>
-                  <span className="truncate">
-                    {process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[#97979B]">Project-ID</span>
-                  <span className="truncate">
-                    {process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[#97979B]">Project name</span>
-                  <span className="truncate">
-                    {process.env.NEXT_PUBLIC_APPWRITE_PROJECT_NAME}
-                  </span>
-                </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <ul className="space-y-3 mb-6 text-slate-300 text-sm">
+                <li className="flex gap-2"><span className="text-green-400">✓</span> 10 AI operations/month</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Commit messages</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Basic vibe tracking</li>
+                <li className="flex gap-2 text-slate-600"><span>✗</span> Code review</li>
+              </ul>
+              <Link href="/aigit" className="block">
+                <Button variant="outline" className="w-full">Get Started</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Pro */}
+          <Card className="bg-gradient-to-b from-purple-900/50 to-slate-900/50 border-purple-500 p-6 relative scale-105 shadow-xl">
+            <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-500">
+              Most Popular
+            </Badge>
+            <CardHeader className="p-0 pb-6">
+              <div className="text-purple-300 text-sm mb-2">For Developers</div>
+              <CardTitle className="text-3xl text-white">Pro</CardTitle>
+              <div className="text-5xl font-bold text-white mt-2">
+                $15<span className="text-base text-slate-400 font-normal">/mo</span>
               </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <ul className="space-y-3 mb-6 text-white text-sm">
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Unlimited operations</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Code review + scoring</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> PR descriptions</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Full vibe analysis</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Git hooks</li>
+              </ul>
+              <Link href="/aigit" className="block">
+                <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                  Start Free Trial
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Team */}
+          <Card className="bg-slate-900/50 border-slate-800 p-6">
+            <CardHeader className="p-0 pb-6">
+              <div className="text-slate-400 text-sm mb-2">For Teams</div>
+              <CardTitle className="text-3xl text-white">Team</CardTitle>
+              <div className="text-5xl font-bold text-white mt-2">
+                $50<span className="text-base text-slate-500 font-normal">/mo</span>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <ul className="space-y-3 mb-6 text-slate-300 text-sm">
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Everything in Pro</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Up to 5 developers</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Team analytics</li>
+                <li className="flex gap-2"><span className="text-green-400">✓</span> Priority support</li>
+              </ul>
+              <Button variant="outline" className="w-full">Contact Sales</Button>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="container mx-auto px-6 py-20">
+        <Card className="max-w-4xl mx-auto bg-gradient-to-r from-purple-900/30 to-pink-900/30 border-purple-500/50 p-12 text-center">
+          <CardHeader className="p-0 pb-6">
+            <CardTitle className="text-4xl md:text-5xl text-white mb-4">
+              Ready to Ship Better Code?
+            </CardTitle>
+            <CardDescription className="text-xl text-slate-300 max-w-2xl mx-auto">
+              Join developers already using AI to write cleaner commits and catch bugs earlier.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <Link href="/aigit">
+              <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 px-8 py-6 text-lg">
+                Start Your Free Trial →
+              </Button>
+            </Link>
+            <p className="text-slate-400 text-sm mt-4">No credit card required</p>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-800 mt-12">
+        <div className="container mx-auto px-6 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="text-xl">🐾</div>
+              <span className="text-lg font-bold text-white">ClawGit</span>
             </div>
-            <div className="flex-grow">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-y border-[#EDEDF0] bg-[#FAFAFB] text-[#97979B]">
-                    {logs.length > 0 ? (
-                      <>
-                        <td className="w-52 py-2 pl-4">Date</td>
-                        <td>Status</td>
-                        <td>Method</td>
-                        <td className="hidden lg:table-cell">Path</td>
-                        <td className="hidden lg:table-cell">Response</td>
-                      </>
-                    ) : (
-                      <>
-                        <td className="py-2 pl-4">Logs</td>
-                      </>
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {logs.length > 0 ? (
-                    logs.map((log, index) => (
-                      <tr key={`log-${index}-${log.date.getTime()}`}>
-                        <td className="py-2 pl-4 font-[Fira_Code]">
-                          {log.date.toLocaleString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </td>
-                        <td>
-                          {log.status > 400 ? (
-                            <div className="w-fit rounded-sm bg-[#FF453A3D] px-1 text-[#B31212]">
-                              {log.status}
-                            </div>
-                          ) : (
-                            <div className="w-fit rounded-sm bg-[#10B9813D] px-1 text-[#0A714F]">
-                              {log.status}
-                            </div>
-                          )}
-                        </td>
-                        <td>{log.method}</td>
-                        <td className="hidden lg:table-cell">{log.path}</td>
-                        <td className="hidden font-[Fira_Code] lg:table-cell">
-                          {log.response}
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr key="no-logs">
-                      <td className="py-2 pl-4 font-[Fira_Code]">
-                        There are no logs to show
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+            <p className="text-slate-500 text-sm">© 2026 ClawGit. Built with Claude AI.</p>
           </div>
-        </details>
-      </aside>
-    </main>
-  );
+        </div>
+      </footer>
+    </div>
+  )
 }
