@@ -24,14 +24,17 @@ export default function LandingPage() {
                 Pricing
               </Link>
               <ThemeToggle />
+              <Link href="/install" className="text-sm text-stone-500 hover:text-[#1C1917] dark:text-stone-400 dark:hover:text-[#FAF9F6] transition">
+                GitHub App
+              </Link>
               <Link href="/aigit">
                 <Button variant="outline" className="border-[#D97757] text-[#D97757] hover:bg-[#F5EDE8] dark:hover:bg-[#2C2825] text-sm">
                   Dashboard
                 </Button>
               </Link>
-              <Link href="/aigit">
+              <Link href="/install">
                 <Button className="bg-[#D97757] hover:bg-[#C25E3A] text-white text-sm shadow-sm">
-                  Get Started
+                  Install Free →
                 </Button>
               </Link>
             </div>
@@ -63,9 +66,9 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-            <Link href="/aigit">
+            <Link href="/install">
               <Button size="lg" className="bg-[#D97757] hover:bg-[#C25E3A] text-white px-8 py-6 text-base shadow-sm rounded-xl">
-                Start for free →
+                Install GitHub App →
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-[#E8E0D5] dark:border-[#2C2825] text-stone-600 dark:text-stone-300 hover:bg-[#F5EDE8] dark:hover:bg-[#252120] px-8 py-6 text-base rounded-xl">
