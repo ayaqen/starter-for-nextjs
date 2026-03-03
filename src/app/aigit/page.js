@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -64,10 +65,7 @@ export default function Dashboard() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🐾</span>
-              <span className="text-lg font-semibold text-[#1C1917] dark:text-[#FAF9F6]" style={{fontFamily: 'Lora, Georgia, serif'}}>
-                ClawGit
-              </span>
+              <Logo width={64} />
               <Badge variant="outline" className="border-[#D9B5A4] text-[#C25E3A] dark:border-[#5C3A28] dark:text-[#E8896A] text-xs">
                 Free Plan
               </Badge>

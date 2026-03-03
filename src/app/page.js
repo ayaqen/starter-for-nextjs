@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Logo } from "@/components/logo"
 import Link from "next/link"
 
 export default function LandingPage() {
@@ -12,11 +13,8 @@ export default function LandingPage() {
       <nav className="border-b border-[#E8E0D5] dark:border-[#2C2825] backdrop-blur-sm sticky top-0 z-50 bg-[#FAF9F6]/90 dark:bg-[#1C1917]/90">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2.5">
-              <span className="text-2xl">🐾</span>
-              <span className="text-xl font-semibold text-[#1C1917] dark:text-[#FAF9F6]" style={{fontFamily: 'Lora, Georgia, serif'}}>
-                ClawGit
-              </span>
+            <Link href="/" className="flex items-center">
+              <Logo width={72} />
             </Link>
             <div className="hidden md:flex items-center gap-7">
               <Link href="#features" className="text-sm text-stone-500 hover:text-[#1C1917] dark:text-stone-400 dark:hover:text-[#FAF9F6] transition">
@@ -248,11 +246,8 @@ export default function LandingPage() {
       <footer className="border-t border-[#E8E0D5] dark:border-[#2C2825]">
         <div className="container mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🐾</span>
-              <span className="font-semibold text-[#1C1917] dark:text-[#FAF9F6]" style={{fontFamily: 'Lora, Georgia, serif'}}>ClawGit</span>
-            </div>
-            <p className="text-stone-400 text-sm">© 2026 ClawGit · ivgit.com · Built with Claude AI</p>
+            <Logo width={56} />
+            <p className="text-stone-400 text-sm">© 2026 ivGit · ivgit.com · Built with Claude AI</p>
           </div>
         </div>
       </footer>

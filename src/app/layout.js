@@ -2,7 +2,7 @@ import "./app.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata = {
-  title: "ClawGit – AI-Powered Git Workflow",
+  title: "ivGit – AI-Powered Git Workflow",
   description: "Claude AI analyzes your commits, reviews code in real-time, and tracks your flow state.",
 };
 
