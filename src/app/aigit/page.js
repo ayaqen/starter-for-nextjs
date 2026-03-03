@@ -57,27 +57,27 @@ export default function Dashboard() {
   const isNearLimit = usageCount >= maxFreeOps * 0.8
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#1C1917] transition-colors duration-300">
 
       {/* Header */}
-      <header className="border-b border-gray-200/80 backdrop-blur-sm sticky top-0 z-50 bg-white/80 dark:border-slate-800/50 dark:bg-slate-950/50">
+      <header className="border-b border-[#E8E0D5] dark:border-[#2C2825] backdrop-blur-sm sticky top-0 z-50 bg-[#FAF9F6]/90 dark:bg-[#1C1917]/90">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="text-2xl">🐾</div>
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-500 text-transparent bg-clip-text">
+              <span className="text-2xl">🐾</span>
+              <span className="text-lg font-semibold text-[#1C1917] dark:text-[#FAF9F6]" style={{fontFamily: 'Lora, Georgia, serif'}}>
                 ClawGit
               </span>
-              <Badge variant="outline" className="border-purple-400 text-purple-600 dark:border-purple-500 dark:text-purple-400">
+              <Badge variant="outline" className="border-[#D9B5A4] text-[#C25E3A] dark:border-[#5C3A28] dark:text-[#E8896A] text-xs">
                 Free Plan
               </Badge>
             </div>
             <div className="flex items-center gap-4">
-              <div className="text-sm text-gray-500 dark:text-slate-400">
-                {usageCount} / {maxFreeOps} operations used
-              </div>
+              <span className="text-sm text-stone-400 dark:text-stone-500 hidden sm:block">
+                {usageCount} / {maxFreeOps} operations
+              </span>
               <ThemeToggle />
-              <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+              <Button className="bg-[#D97757] hover:bg-[#C25E3A] text-white text-sm shadow-sm">
                 Upgrade to Pro
               </Button>
             </div>
@@ -85,42 +85,42 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-6 py-8 max-w-4xl">
 
         {/* Usage Warning */}
         {isNearLimit && (
-          <Card className="mb-6 bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-500/50">
-            <CardHeader>
-              <CardTitle className="text-yellow-700 dark:text-yellow-400 flex items-center gap-2">
-                <span>⚠️</span> You're running low on free operations
+          <Card className="mb-6 bg-[#FEF3EE] border-[#D9B5A4] dark:bg-[#2C1F18] dark:border-[#5C3A28]">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-[#C25E3A] dark:text-[#E8896A] flex items-center gap-2 text-base" style={{fontFamily: 'Lora, Georgia, serif'}}>
+                ⚠ Running low on free operations
               </CardTitle>
-              <CardDescription className="text-yellow-600 dark:text-yellow-200/80">
-                Upgrade to Pro for unlimited AI operations and unlock all features.
+              <CardDescription className="text-[#8B5E4A] dark:text-[#C8A090]">
+                Upgrade to Pro for unlimited AI operations and all features.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Button className="bg-yellow-500 hover:bg-yellow-600 text-white dark:text-slate-900">
-                Upgrade Now — $15/month
+            <CardContent className="pt-0">
+              <Button className="bg-[#D97757] hover:bg-[#C25E3A] text-white text-sm">
+                Upgrade — $15/month
               </Button>
             </CardContent>
           </Card>
         )}
 
         {/* Usage Progress */}
-        <Card className="mb-6 bg-white border-gray-200 dark:bg-slate-900/50 dark:border-slate-800 shadow-sm dark:shadow-none">
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-500 dark:text-slate-400">Free Tier Usage</span>
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
+        <Card className="mb-6 bg-white dark:bg-[#252120] border-[#E8E0D5] dark:border-[#2C2825] shadow-sm">
+          <CardContent className="pt-5 pb-5">
+            <div className="flex items-center justify-between mb-2.5">
+              <span className="text-sm text-stone-500 dark:text-stone-400">Free tier usage</span>
+              <span className="text-sm font-medium text-[#1C1917] dark:text-[#FAF9F6]">
                 {usageCount} / {maxFreeOps}
               </span>
             </div>
-            <div className="w-full bg-gray-200 dark:bg-slate-800 rounded-full h-2">
+            <div className="w-full bg-stone-100 dark:bg-[#1C1917] rounded-full h-1.5">
               <div
-                className={`h-2 rounded-full transition-all ${
+                className={`h-1.5 rounded-full transition-all ${
                   isNearLimit
-                    ? 'bg-gradient-to-r from-yellow-400 to-red-500'
-                    : 'bg-gradient-to-r from-purple-500 to-pink-500'
+                    ? 'bg-gradient-to-r from-amber-400 to-red-400'
+                    : 'bg-[#D97757]'
                 }`}
                 style={{ width: `${Math.min(usagePercentage, 100)}%` }}
               />
@@ -129,84 +129,84 @@ export default function Dashboard() {
         </Card>
 
         {/* Main Tabs */}
-        <Tabs defaultValue="review" className="space-y-6">
-          <TabsList className="bg-gray-100 border border-gray-200 dark:bg-slate-900 dark:border-slate-800">
-            <TabsTrigger value="review" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white dark:data-[state=active]:bg-purple-600">
+        <Tabs defaultValue="review" className="space-y-5">
+          <TabsList className="bg-stone-100 dark:bg-[#252120] border border-[#E8E0D5] dark:border-[#2C2825] p-1 rounded-xl h-auto">
+            <TabsTrigger value="review" className="rounded-lg text-sm data-[state=active]:bg-[#D97757] data-[state=active]:text-white data-[state=active]:shadow-sm">
               🔍 Code Review
             </TabsTrigger>
-            <TabsTrigger value="commit" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white dark:data-[state=active]:bg-purple-600">
+            <TabsTrigger value="commit" className="rounded-lg text-sm data-[state=active]:bg-[#D97757] data-[state=active]:text-white data-[state=active]:shadow-sm">
               🤖 Commit Message
             </TabsTrigger>
-            <TabsTrigger value="pr" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white dark:data-[state=active]:bg-purple-600">
+            <TabsTrigger value="pr" className="rounded-lg text-sm data-[state=active]:bg-[#D97757] data-[state=active]:text-white data-[state=active]:shadow-sm">
               📝 PR Description
             </TabsTrigger>
-            <TabsTrigger value="vibe" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white dark:data-[state=active]:bg-purple-600">
-              ✨ Vibe Session
+            <TabsTrigger value="vibe" className="rounded-lg text-sm data-[state=active]:bg-[#D97757] data-[state=active]:text-white data-[state=active]:shadow-sm">
+              ✦ Vibe Session
             </TabsTrigger>
           </TabsList>
 
           {/* Code Review Tab */}
-          <TabsContent value="review" className="space-y-4">
-            <Card className="bg-white border-gray-200 dark:bg-slate-900/50 dark:border-slate-800 shadow-sm dark:shadow-none">
+          <TabsContent value="review">
+            <Card className="bg-white dark:bg-[#252120] border-[#E8E0D5] dark:border-[#2C2825] shadow-sm">
               <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">AI Code Review</CardTitle>
-                <CardDescription className="text-gray-500 dark:text-slate-400">
-                  Paste your git diff and get instant AI-powered code review with severity scoring
+                <CardTitle className="text-[#1C1917] dark:text-[#FAF9F6]" style={{fontFamily: 'Lora, Georgia, serif'}}>AI Code Review</CardTitle>
+                <CardDescription className="text-stone-400 dark:text-stone-500">
+                  Paste your git diff and get instant AI-powered review with severity scoring
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Textarea
-                  placeholder={`Paste your git diff here...\n\nExample:\ndiff --git a/src/app.js b/src/app.js\n--- a/src/app.js\n+++ b/src/app.js\n@@ -10,7 +10,7 @@ function handleClick() {\n-  console.log('clicked')\n+  // TODO: implement proper logging`}
-                  className="min-h-[300px] bg-gray-50 border-gray-300 text-gray-800 placeholder:text-gray-400 font-mono text-sm dark:bg-slate-950 dark:border-slate-700 dark:text-slate-300 dark:placeholder:text-slate-600"
+                  placeholder={`Paste your git diff here...\n\nExample:\ndiff --git a/src/app.js b/src/app.js\n--- a/src/app.js\n+++ b/src/app.js\n@@ -10,7 +10,7 @@\n-  console.log('clicked')\n+  // TODO: implement logging`}
+                  className="min-h-[280px] bg-[#FAF9F6] dark:bg-[#1C1917] border-[#E8E0D5] dark:border-[#2C2825] text-stone-700 dark:text-stone-300 placeholder:text-stone-300 dark:placeholder:text-stone-600 font-mono text-sm rounded-xl resize-none focus-visible:ring-[#D97757]"
                   value={diff}
                   onChange={(e) => setDiff(e.target.value)}
                 />
                 <Button
                   onClick={handleReview}
                   disabled={loading || !diff.trim() || usageCount >= maxFreeOps}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                  className="bg-[#D97757] hover:bg-[#C25E3A] text-white"
                 >
-                  {loading ? 'Analyzing...' : usageCount >= maxFreeOps ? 'Upgrade to Continue' : 'Get AI Review'}
+                  {loading ? 'Analyzing...' : usageCount >= maxFreeOps ? 'Upgrade to continue' : 'Get AI review'}
                 </Button>
 
                 {result && result.score !== undefined && (
-                  <Card className="bg-gray-50 border-gray-200 dark:bg-slate-950 dark:border-slate-700 mt-6">
+                  <Card className="bg-[#FAF9F6] dark:bg-[#1C1917] border-[#E8E0D5] dark:border-[#2C2825] mt-4">
                     <CardHeader>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-gray-900 dark:text-white">Review Results</CardTitle>
-                        <Badge className={`text-white ${
-                          result.score >= 8 ? 'bg-green-500' :
-                          result.score >= 6 ? 'bg-yellow-500' : 'bg-red-500'
+                        <CardTitle className="text-[#1C1917] dark:text-[#FAF9F6] text-base" style={{fontFamily: 'Lora, Georgia, serif'}}>Review Results</CardTitle>
+                        <Badge className={`text-white text-xs ${
+                          result.score >= 8 ? 'bg-emerald-500' :
+                          result.score >= 6 ? 'bg-amber-500' : 'bg-red-500'
                         }`}>
-                          Score: {result.score}/10
+                          {result.score}/10
                         </Badge>
                       </div>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-3">
                       {result.summary && (
-                        <p className="text-gray-600 dark:text-slate-300 text-sm">{result.summary}</p>
+                        <p className="text-stone-500 dark:text-stone-400 text-sm">{result.summary}</p>
                       )}
-                      {result.issues && result.issues.length > 0 ? (
+                      {result.issues?.length > 0 ? (
                         <div className="space-y-2">
-                          <h4 className="font-medium text-gray-900 dark:text-white">Issues Found:</h4>
+                          <p className="font-medium text-[#1C1917] dark:text-[#FAF9F6] text-sm">Issues found:</p>
                           {result.issues.map((issue, i) => (
-                            <div key={i} className="bg-white dark:bg-slate-900 p-3 rounded border-l-4 border-yellow-400 dark:border-yellow-500 shadow-sm dark:shadow-none">
-                              <div className="text-sm text-gray-700 dark:text-slate-300">
+                            <div key={i} className="bg-white dark:bg-[#252120] p-3 rounded-lg border-l-2 border-amber-400">
+                              <p className="text-sm text-stone-600 dark:text-stone-300">
                                 {typeof issue === 'object' ? issue.description : issue}
-                              </div>
+                              </p>
                               {issue.suggestion && (
-                                <div className="text-xs text-gray-500 dark:text-slate-400 mt-1">→ {issue.suggestion}</div>
+                                <p className="text-xs text-stone-400 mt-1">→ {issue.suggestion}</p>
                               )}
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <div className="text-green-600 dark:text-green-400">✓ No issues found!</div>
+                        <p className="text-emerald-600 dark:text-emerald-400 text-sm">✓ No issues found!</p>
                       )}
                       {result.vibeCheck && (
-                        <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded border border-purple-200 dark:border-purple-500/30">
-                          <div className="text-purple-600 dark:text-purple-300 font-medium mb-1">✨ Vibe Check</div>
-                          <div className="text-gray-600 dark:text-slate-300 text-sm">{result.vibeCheck}</div>
+                        <div className="bg-[#EEDDD6] dark:bg-[#2C1F18] p-4 rounded-xl border border-[#D9B5A4] dark:border-[#5C3A28]">
+                          <p className="text-[#C25E3A] dark:text-[#E8896A] font-medium text-sm mb-1">✦ Vibe check</p>
+                          <p className="text-stone-600 dark:text-stone-300 text-sm">{result.vibeCheck}</p>
                         </div>
                       )}
                     </CardContent>
@@ -217,44 +217,44 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Commit Message Tab */}
-          <TabsContent value="commit" className="space-y-4">
-            <Card className="bg-white border-gray-200 dark:bg-slate-900/50 dark:border-slate-800 shadow-sm dark:shadow-none">
+          <TabsContent value="commit">
+            <Card className="bg-white dark:bg-[#252120] border-[#E8E0D5] dark:border-[#2C2825] shadow-sm">
               <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">Generate Commit Message</CardTitle>
-                <CardDescription className="text-gray-500 dark:text-slate-400">
-                  Get AI-generated conventional commit messages with alternatives
+                <CardTitle className="text-[#1C1917] dark:text-[#FAF9F6]" style={{fontFamily: 'Lora, Georgia, serif'}}>Generate Commit Message</CardTitle>
+                <CardDescription className="text-stone-400 dark:text-stone-500">
+                  AI-generated conventional commit messages with alternatives
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Textarea
                   placeholder="Paste your git diff here..."
-                  className="min-h-[300px] bg-gray-50 border-gray-300 text-gray-800 placeholder:text-gray-400 font-mono text-sm dark:bg-slate-950 dark:border-slate-700 dark:text-slate-300 dark:placeholder:text-slate-600"
+                  className="min-h-[280px] bg-[#FAF9F6] dark:bg-[#1C1917] border-[#E8E0D5] dark:border-[#2C2825] text-stone-700 dark:text-stone-300 placeholder:text-stone-300 dark:placeholder:text-stone-600 font-mono text-sm rounded-xl resize-none focus-visible:ring-[#D97757]"
                   value={diff}
                   onChange={(e) => setDiff(e.target.value)}
                 />
                 <Button
                   onClick={handleCommitMessage}
                   disabled={loading || !diff.trim() || usageCount >= maxFreeOps}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                  className="bg-[#D97757] hover:bg-[#C25E3A] text-white"
                 >
-                  {loading ? 'Generating...' : usageCount >= maxFreeOps ? 'Upgrade to Continue' : 'Generate Message'}
+                  {loading ? 'Generating...' : usageCount >= maxFreeOps ? 'Upgrade to continue' : 'Generate message'}
                 </Button>
 
-                {result && result.message && (
-                  <Card className="bg-gray-50 border-gray-200 dark:bg-slate-950 dark:border-slate-700">
+                {result?.message && (
+                  <Card className="bg-[#FAF9F6] dark:bg-[#1C1917] border-[#E8E0D5] dark:border-[#2C2825]">
                     <CardHeader>
-                      <CardTitle className="text-gray-900 dark:text-white text-base">Suggested Commits</CardTitle>
+                      <CardTitle className="text-[#1C1917] dark:text-[#FAF9F6] text-base" style={{fontFamily: 'Lora, Georgia, serif'}}>Suggested commits</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-3">
+                    <CardContent className="space-y-2">
                       {[result.message, ...(result.alternatives || [])].map((msg, i) => (
                         <div
                           key={i}
-                          className="bg-white dark:bg-slate-900 p-4 rounded border border-gray-200 hover:border-purple-400 dark:border-slate-700 dark:hover:border-purple-500 transition cursor-pointer shadow-sm dark:shadow-none"
+                          className="bg-white dark:bg-[#252120] p-4 rounded-xl border border-[#E8E0D5] dark:border-[#2C2825] hover:border-[#D97757] dark:hover:border-[#D97757] transition cursor-pointer"
                           onClick={() => navigator.clipboard?.writeText(msg)}
                         >
-                          <div className="font-mono text-sm text-purple-600 dark:text-purple-400">{msg}</div>
+                          <p className="font-mono text-sm text-[#C25E3A] dark:text-[#E8896A]">{msg}</p>
                           {i === 0 && (
-                            <Badge className="mt-2 bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-300">Primary</Badge>
+                            <Badge className="mt-2 bg-[#EEDDD6] text-[#C25E3A] dark:bg-[#2C1F18] dark:text-[#E8896A] border-0 text-xs">Primary</Badge>
                           )}
                         </div>
                       ))}
@@ -266,19 +266,19 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* PR Description Tab */}
-          <TabsContent value="pr" className="space-y-4">
-            <Card className="bg-white border-gray-200 dark:bg-slate-900/50 dark:border-slate-800 shadow-sm dark:shadow-none">
+          <TabsContent value="pr">
+            <Card className="bg-white dark:bg-[#252120] border-[#E8E0D5] dark:border-[#2C2825] shadow-sm">
               <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">Generate PR Description</CardTitle>
-                <CardDescription className="text-gray-500 dark:text-slate-400">
+                <CardTitle className="text-[#1C1917] dark:text-[#FAF9F6]" style={{fontFamily: 'Lora, Georgia, serif'}}>Generate PR Description</CardTitle>
+                <CardDescription className="text-stone-400 dark:text-stone-500">
                   Auto-generate comprehensive PR titles, descriptions, and labels
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-500 dark:text-slate-400 text-sm">
+                <p className="text-stone-500 dark:text-stone-400 text-sm mb-4">
                   This feature requires a Pro account. Upgrade to unlock unlimited PR generation.
                 </p>
-                <Button className="mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+                <Button className="bg-[#D97757] hover:bg-[#C25E3A] text-white">
                   Upgrade to Pro
                 </Button>
               </CardContent>
@@ -286,57 +286,56 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Vibe Session Tab */}
-          <TabsContent value="vibe" className="space-y-4">
-            <Card className="bg-white border-gray-200 dark:bg-slate-900/50 dark:border-slate-800 shadow-sm dark:shadow-none">
+          <TabsContent value="vibe">
+            <Card className="bg-white dark:bg-[#252120] border-[#E8E0D5] dark:border-[#2C2825] shadow-sm">
               <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">Vibe Session Analysis</CardTitle>
-                <CardDescription className="text-gray-500 dark:text-slate-400">
+                <CardTitle className="text-[#1C1917] dark:text-[#FAF9F6]" style={{fontFamily: 'Lora, Georgia, serif'}}>Vibe Session Analysis</CardTitle>
+                <CardDescription className="text-stone-400 dark:text-stone-500">
                   Track your coding flow state and momentum
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="bg-gray-50 dark:bg-slate-950 p-6 rounded border border-gray-200 dark:border-slate-800">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-gray-500 dark:text-slate-400">Current Flow State</span>
-                      <Badge className="bg-purple-100 text-purple-700 dark:bg-purple-500 dark:text-white">Peak 🔥</Badge>
-                    </div>
-                    <div className="w-full bg-gray-200 dark:bg-slate-800 rounded-full h-3 mb-2">
-                      <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full" style={{ width: '75%' }} />
-                    </div>
-                    <div className="text-gray-400 dark:text-slate-500 text-sm">Based on your recent commit patterns</div>
+              <CardContent className="space-y-4">
+                <div className="bg-[#FAF9F6] dark:bg-[#1C1917] p-6 rounded-xl border border-[#E8E0D5] dark:border-[#2C2825]">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-stone-500 dark:text-stone-400 text-sm">Current flow state</span>
+                    <Badge className="bg-[#EEDDD6] text-[#C25E3A] dark:bg-[#2C1F18] dark:text-[#E8896A] border-0">Peak 🔥</Badge>
                   </div>
-                  <p className="text-gray-500 dark:text-slate-400 text-sm">
-                    Upgrade to Pro for detailed vibe analytics and flow state tracking.
-                  </p>
-                  <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
-                    Upgrade to Pro
-                  </Button>
+                  <div className="w-full bg-stone-100 dark:bg-[#252120] rounded-full h-2 mb-2">
+                    <div className="bg-[#D97757] h-2 rounded-full" style={{ width: '75%' }} />
+                  </div>
+                  <p className="text-stone-400 text-xs">Based on your recent commit patterns</p>
                 </div>
+                <p className="text-stone-500 dark:text-stone-400 text-sm">
+                  Upgrade to Pro for detailed vibe analytics and flow state tracking.
+                </p>
+                <Button className="bg-[#D97757] hover:bg-[#C25E3A] text-white">
+                  Upgrade to Pro
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
 
-        {/* CLI Instructions */}
-        <Card className="mt-8 bg-white border-gray-200 dark:bg-slate-900/50 dark:border-slate-800 shadow-sm dark:shadow-none">
+        {/* CLI Card */}
+        <Card className="mt-6 bg-white dark:bg-[#252120] border-[#E8E0D5] dark:border-[#2C2825] shadow-sm">
           <CardHeader>
-            <CardTitle className="text-gray-900 dark:text-white flex items-center gap-2">
-              <span>⚡</span> Use from Terminal
+            <CardTitle className="text-[#1C1917] dark:text-[#FAF9F6] flex items-center gap-2 text-base" style={{fontFamily: 'Lora, Georgia, serif'}}>
+              ⚡ Use from terminal
             </CardTitle>
-            <CardDescription className="text-gray-500 dark:text-slate-400">
+            <CardDescription className="text-stone-400 dark:text-stone-500">
               Pro users get CLI access for seamless workflow integration
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="bg-gray-100 dark:bg-slate-950 rounded p-4 font-mono text-sm space-y-2 border border-gray-200 dark:border-transparent">
-              <div className="text-purple-600 dark:text-purple-400">$ npm run vibe -- review</div>
-              <div className="text-purple-600 dark:text-purple-400">$ npm run vibe -- pr</div>
-              <div className="text-purple-600 dark:text-purple-400">$ npm run vibe -- session</div>
-              <div className="text-gray-400 dark:text-slate-500 mt-4">Install git hooks: npm run vibe:setup</div>
+            <div className="bg-[#1C1917] rounded-xl p-5 font-mono text-sm space-y-2">
+              <p className="text-[#E8896A]">$ npm run vibe -- review</p>
+              <p className="text-[#E8896A]">$ npm run vibe -- pr</p>
+              <p className="text-[#E8896A]">$ npm run vibe -- session</p>
+              <p className="text-stone-500 mt-3">Install git hooks: npm run vibe:setup</p>
             </div>
           </CardContent>
         </Card>
+
       </div>
     </div>
   )
